@@ -1,13 +1,13 @@
 -- EJERCICIO 1
--- Analizar la función int hacealgo(int a[], int b). Determinar qué hace el programa, cuál es el rol de cada variable (a, b, c, d) y cuánto tiempo toma deducir su funcionalidad[cite: 1].
+-- Analizar la función int hacealgo(int a[], int b). Determinar qué hace el programa, cuál es el rol de cada variable (a, b, c, d) y cuánto tiempo toma deducir su funcionalidad
 
 -- EJERCICIO 2
--- Refactorizar la función hacealgo para mejorar su expresividad. Cambiar nombres de variables y de la función para que el código sea autodocumentado, aplicar abstracción creando la función esPar y finalmente representar la misma lógica de forma declarativa usando filter y length[cite: 1].
+-- Refactorizar la función hacealgo para mejorar su expresividad. Cambiar nombres de variables y de la función para que el código sea autodocumentado, aplicar abstracción creando la función esPar y finalmente representar la misma lógica de forma declarativa usando filter y length
 
 -- ! estos dos de arriba los hace el profe en el pdf, pasa que gemini no se dio cuenta
 
 -- EJERCICIO 3
--- En un archivo llamado maderera.hs, definir las funciones: cuadruple (multiplica por 4), largoDeListon (constante 300), maderaCuadro (igual a cuadruple) y meAlcanza (compara un largo con el listón). Luego, definir puedoHacerCuadroDe mediante la composición de meAlcanza y maderaCuadro[cite: 1].
+-- En un archivo llamado maderera.hs, definir las funciones: cuadruple (multiplica por 4), largoDeListon (constante 300), maderaCuadro (igual a cuadruple) y meAlcanza (compara un largo con el listón). Luego, definir puedoHacerCuadroDe mediante la composición de meAlcanza y maderaCuadro
 
 cuadriple :: Int -> Int
 cuadriple x = x * 4
@@ -25,7 +25,7 @@ puedoHacerCuadroDe :: Int -> Bool
 puedoHacerCuadroDe = meAlcanza . maderaCuadro -- ! primero se hace la funcion de la derecha y despues la de la izquierda, es composicion de funciones
 
 -- EJERCICIO 4
--- Modelar en el archivo maderera.hs la lógica necesaria para calcular qué porcentaje de listón sobraría para armar un cuadro de tamaño 50 de lado. Utilizar las funciones cuantoMeSobra y quePorcentaje mediante composición[cite: 1].
+-- Modelar en el archivo maderera.hs la lógica necesaria para calcular qué porcentaje de listón sobraría para armar un cuadro de tamaño 50 de lado. Utilizar las funciones cuantoMeSobra y quePorcentaje mediante composición
 
 cuantoMeSobra :: Int -> Int
 cuantoMeSobra x = largoDeListon - x
@@ -37,7 +37,7 @@ resultadoEjercicio4 :: Float -- haskell infiere tipos igual, asi que no hace fal
 resultadoEjercicio4 = (quePorcentaje . cuantoMeSobra . maderaCuadro) 50 -- 50 es el valor de entrada de la primera funcion que se llama
 
 -- EJERCICIO 5
--- Definir en Haskell las funciones esMayorDeEdad (edad >= 18) y esMenorDeEdad (edad < 18) con sus respectivos tipados. Definir una segunda versión de esMenorDeEdad que utilice la función esMayorDeEdad como base[cite: 1].
+-- Definir en Haskell las funciones esMayorDeEdad (edad >= 18) y esMenorDeEdad (edad < 18) con sus respectivos tipados. Definir una segunda versión de esMenorDeEdad que utilice la función esMayorDeEdad como base
 
 -- * En los lenguajes imperativos (como C), usás return para "salir" de la función devolviendo un valor. En Haskell, que es un lenguaje funcional, una función es como una igualdad matemática.
 
@@ -51,13 +51,13 @@ esMenorDeEdad :: Int -> Bool
 esMenorDeEdad edad = not (esMayorDeEdad edad)
 
 -- EJERCICIO 6
--- Definir una función nombreFormateado que reciba un nombre y un apellido y devuelva el string con el formato "Apellido, Nombre"[cite: 1].
+-- Definir una función nombreFormateado que reciba un nombre y un apellido y devuelva el string con el formato "Apellido, Nombre"
 
 nombreFormateado :: String -> String -> String
 nombreFormateado nombre apellido = apellido ++ ", " ++ nombre -- ? tenes que poner las comillas cuando usas la funcion "", por que sino haskell piensa que es otra funcion o que es una "const" (que tambien es una funcion)
 
 -- EJERCICIO 7
--- Implementar funciones de física para calcular la velocidad final (V = t * g) y la distancia recorrida (D = 1/2 * t^2 * g) de una pelota en caída libre a los 5 segundos, considerando g = 9.8. Determinar si la pelota rebota contra el piso si se lanza desde una altura de 80 metros[cite: 1].
+-- Implementar funciones de física para calcular la velocidad final (V = t * g) y la distancia recorrida (D = 1/2 * t^2 * g) de una pelota en caída libre a los 5 segundos, considerando g = 9.8. Determinar si la pelota rebota contra el piso si se lanza desde una altura de 80 metros
 
 aceleracionDeLaGravedad :: Float
 aceleracionDeLaGravedad = 9.807
@@ -73,7 +73,7 @@ pasaLaAltura80 distancia = distancia >= 80
 resultadoEjercicio5 = (pasaLaAltura80 . distanciaRecorridaCaidaLibre) 5
 
 -- EJERCICIO 8
--- Definir la función color utilizando Pattern Matching para asociar: "banana" a "amarillo", "manzana" a "rojo" y "limon" a "amarillo". Verificar qué sucede al ingresar un valor no definido como "naranja"[cite: 1].
+-- Definir la función color utilizando Pattern Matching para asociar: "banana" a "amarillo", "manzana" a "rojo" y "limon" a "amarillo". Verificar qué sucede al ingresar un valor no definido como "naranja"
 
 color "banana" = "amarillo"
 color "manzana" = "rojo"
