@@ -9,7 +9,8 @@
 -- EJERCICIO 3
 -- En un archivo llamado maderera.hs, definir las funciones: cuadruple (multiplica por 4), largoDeListon (constante 300), maderaCuadro (igual a cuadruple) y meAlcanza (compara un largo con el listón). Luego, definir puedoHacerCuadroDe mediante la composición de meAlcanza y maderaCuadro
 
-cuadriple :: Int -> Int
+-- cuadriple :: (Num a) => a -> a
+-- cuadriple :: Int -> Int
 cuadriple x = x * 4
 
 largoDeListon :: Int -- !esto antes lo puse todo en una misma linea y funciono

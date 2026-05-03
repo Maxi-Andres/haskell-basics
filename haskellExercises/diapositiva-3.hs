@@ -65,6 +65,8 @@ secuenciaFibonacci n = secuenciaFibonacci (n - 1) + secuenciaFibonacci (n - 2)
 -- EJERCICIO 10 (ALIAS DE TIPOS)
 -- Crear alias de tipo (type) para Nombre y Edad. Definir una función edad que reciba un nombre y devuelva la edad de personas específicas (ej. Mati: 23, Leo: 26) usando Pattern Matching, aplicando los alias en la firma de la función.
 
+-- ! type es simplemente un alias le das un "apodo" a un tipo de dato
+
 type Nombre = String
 
 type Edad = Int
