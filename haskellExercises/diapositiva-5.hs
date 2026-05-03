@@ -1,5 +1,3 @@
-import System.Win32 (SYSTEM_INFO (siMaximumApplicationAddress))
-
 -- EJERCICIO 1: APLICACIÓN PARCIAL (TIPADO)
 -- Determinar los tipos resultantes de las siguientes aplicaciones parciales:
 -- a) :t (== 'a')
