@@ -1,6 +1,19 @@
+import Distribution.PackageDescription (PackageDescription (subLibraries))
+
 -- 1. Múltiplos:
 -- Definir funciones para determinar si un número es múltiplo de dos, tres y diez.
 -- Luego, generalizar en una función 'esMultiploDe' que reciba el divisor y el número.
+
+esMultiploDeDos :: Int -> Bool
+esMultiploDeDos x = mod x 2 == 0
+
+esMultiploDeTres :: Int -> Bool
+esMultiploDeTres x = mod x 3 == 0
+
+-- ? a esto se le llama funcion de orden superior
+
+esMultiploDe :: Int -> Int -> Bool
+esMultiploDe x y = mod x y == 0
 
 -- 2. Ordenamiento:
 -- Implementar funciones para ordenar una lista alfabéticamente, por precio o por calorías.
@@ -10,8 +23,25 @@
 -- Realizar el promedio de edad de una lista de personas.
 -- Nota: Usar 'sum' para la suma de edades y dividir por el 'length' de la lista.
 
+data Persona = Persona
+  { nombre :: String,
+    edad :: Float
+  }
+
+alice :: Persona
+alice = Persona "alice" 5
+
+pepe :: Persona
+pepe = Persona "pepe" 51
+
+promedioDeEdad :: [Persona] -> Float
+promedioDeEdad persons = sum (map edad persons) / fromIntegral (length persons)
+
 -- 4. Doble de una lista:
 -- Crear la función 'duplicarTodos' que calcule el doble de cada número en una lista.
+
+duplicarLista :: (Num a) => [a] -> a
+duplicarLista list = sum list
 
 -- 5. Iniciales:
 -- Obtener las iniciales de una lista de palabras (función 'iniciales').
