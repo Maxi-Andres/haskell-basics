@@ -1,3 +1,5 @@
+import System.Win32 (COORD (xPos))
+
 -- 1. Múltiplos:
 -- Definir funciones para determinar si un número es múltiplo de dos, tres y diez.
 -- Luego, generalizar en una función 'esMultiploDe' que reciba el divisor y el número.
@@ -150,6 +152,9 @@ esMayor :: Persona -> Bool
 esMayor persona = edad persona > 65
 
 -- ! el filter = filter ( (aca_va_la_comparacion) . (aca_va_el_selector) )
+-- ! filter ( (condición) . (selector/transformador) )
+-- ! Selector/Transformador: Es la función que "entra" al dato para sacar lo que nos interesa (por ejemplo, superNombre, velocidad o edad).
+-- ! Condición: Es la función que recibe eso que sacaste y dice True o False (por ejemplo, (>80) o (=="Batman")).
 
 -- 11. Cuantificadores (All y Any):
 -- a) Implementar 'todosPrimos' usando la función 'all'.
@@ -233,14 +238,71 @@ alimentoParaDieta = map alimento . filter menosDe100
 menosDe100 :: InformacionNutricional -> Bool
 menosDe100 x = calorias x <= 99
 
+-- ! si lo haces Point Free se rompe si o si tenes que poner como llamas a la variable
+
 -- 15. Foldeo (Foldr / Foldl):
 -- a) Reescribir 'length', 'sum' y 'productoria' utilizando 'foldr'.
 -- b) Implementar la búsqueda del máximo elemento de una lista usando foldeo.
 -- c) Analizar la diferencia de asociatividad entre foldr1 y foldl1 con la operación resta (-).
 
+-- ! El foldeo (o folding) es una de las técnicas más poderosas de la programación funcional. Consiste en reducir una lista de muchos elementos a un único valor (como un número, un booleano o incluso otra lista) aplicando una operación de forma sucesiva.
+
+-- Suma: Empieza con 0 y suma cada elemento
+miSum :: [Int] -> Int
+miSum = foldr (+) 0
+
+-- Productoria: Empieza con 1 y multiplica cada elemento
+miProductoria :: [Int] -> Int
+miProductoria = foldr (*) 1
+
+-- Length: Por cada elemento, no importa qué sea (_), suma 1 al acumulador
+miLength :: [a] -> Int
+miLength = foldr (\_ acumulador -> 1 + acumulador) 0
+
+maximo :: [Int] -> Int
+maximo (x : xs) = foldr max x xs
+
+-- Usamos 'x' (el primer elemento) como semilla inicial
+
+-- c) Diferencia entre foldr1 y foldl1 (Asociatividad)
+-- La diferencia es hacia qué lado inclinan la operación. Con la resta (-), que no es conmutativa, el resultado cambia drásticamente.
+
+-- foldr1 (Derecha): Agrupa desde el final hacia el principio.
+-- foldr1 (-) [1, 2, 3, 4] equivale a (1 - (2 - (3 - 4)))
+-- Resultado: -2
+
+-- foldl1 (Izquierda): Agrupa desde el principio hacia el final.
+-- foldl1 (-) [1, 2, 3, 4] equivale a (((1 - 2) - 3) - 4)
+-- Resultado: -8
+
+-- Nota: El 1 al final de foldr1 o foldl1 significa que no necesitas pasarle una "semilla" inicial; la función toma automáticamente el primer (o último) elemento de la lista como valor inicial.
+
 -- 16. Análisis Complejo (Alimentos):
 -- a) De los alimentos que NO son poco calóricos, verificar si alguno tiene más proteínas que grasas.
 -- b) Identificar el alimento con mayor valor calórico o nombre más largo usando la función 'elDeMayor'.
+
+algunoEsProteico :: [InformacionNutricional] -> Bool
+algunoEsProteico = any masProteinasQueGrasas
+
+alimentosProteicos :: [InformacionNutricional] -> [InformacionNutricional]
+alimentosProteicos = filter masProteinasQueGrasas
+
+masProteinasQueGrasas :: InformacionNutricional -> Bool
+masProteinasQueGrasas alimento = proteinas alimento > grasas alimento
+
+alimentoConNombreMasLargo :: InformacionNutricional -> Int
+alimentoConNombreMasLargo = length . alimento
+
+-- ! length expera una lista (como [1,2,3] o "Manzana"). si no pones el . le estas pasando esto (alimento :: InformacionNutricional -> String).
+-- ! usando el . se ejecuta primero la llamada y luego le pasas el dato, sin el punto le pasas a length la definicion de la funcion
+
+alimentoMasCalorico :: InformacionNutricional -> Int
+alimentoMasCalorico = calorias
+
+elDeMayor :: (Ord b) => (a -> b) -> a -> a -> a
+elDeMayor ponderacion x y
+  | ponderacion x > ponderacion y = x
+  | otherwise = y
 
 -- 17. Composición con Foldeo:
 -- Crear funciones para componer una lista de funciones ('componer') usando 'foldr1' y 'foldr'.
@@ -250,3 +312,49 @@ menosDe100 x = calorias x <= 99
 -- a) Obtener nombres de cartas que comienzan con "bat".
 -- b) Averiguar si hay cartas con etiquetas (tags) demasiado largos.
 -- c) Corregir etiquetas erróneas (cambiar "#alguien" por "#alien").
+
+data Carta = Carta
+  { superNombre :: String,
+    velocidad :: Int,
+    altura :: Int,
+    peso :: Int,
+    fuerza :: Int,
+    peleas :: Int
+  }
+  deriving (Show, Eq)
+
+-- Superhéroes de ejemplo
+batman :: Carta
+batman = Carta "Batman" 30 188 95 40 100
+
+batwoman :: Carta
+batwoman = Carta "Batwoman" 30 188 95 40 100
+
+superman :: Carta
+superman = Carta "Superman" 100 190 105 100 80
+
+flash :: Carta
+flash = Carta "Flash" 110 180 75 35 60
+
+wonderWoman :: Carta
+wonderWoman = Carta "Wonder Woman" 85 183 75 95 90
+
+hulk :: Carta
+hulk = Carta "Hulk" 40 240 600 110 70
+
+-- Un mazo para que uses con tus funciones de lista
+mazoSuperheores :: [Carta]
+mazoSuperheores = [batman, batwoman, superman, flash, wonderWoman, hulk]
+
+nombreEmiezaConBat :: [Carta] -> [String]
+nombreEmiezaConBat = map superNombre . filter (comienzaConBat . tomarPrimeros)
+
+-- ! filter ( (condición) . (selector/transformador) )
+-- ! Selector/Transformador: Es la función que "entra" al dato para sacar lo que nos interesa (por ejemplo, superNombre, velocidad o edad).
+-- ! Condición: Es la función que recibe eso que sacaste y dice True o False (por ejemplo, (>80) o (=="Batman")).
+
+tomarPrimeros :: Carta -> String
+tomarPrimeros = take 3 . superNombre
+
+comienzaConBat :: String -> Bool
+comienzaConBat x = x == "Bat"
