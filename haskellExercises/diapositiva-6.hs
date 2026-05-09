@@ -1,5 +1,3 @@
-import System.Win32 (COORD (xPos))
-
 -- 1. Múltiplos:
 -- Definir funciones para determinar si un número es múltiplo de dos, tres y diez.
 -- Luego, generalizar en una función 'esMultiploDe' que reciba el divisor y el número.
@@ -310,7 +308,7 @@ elDeMayor ponderacion x y
 -- 18. Caso Práctico: Superhéroes:
 -- A partir de un tipo de dato 'Carta':
 -- a) Obtener nombres de cartas que comienzan con "bat".
--- b) Averiguar si hay cartas con etiquetas (tags) demasiado largos.
+-- b) Averiguar si hay cartas con etiquetas (tags) demasiado largos. (lo que interpreto yo es en la lista de tags te fijas si alguno tiene mas de cirtos caracteres, lo hardcodeo a 10)
 -- c) Corregir etiquetas erróneas (cambiar "#alguien" por "#alien").
 
 data Carta = Carta
@@ -319,30 +317,30 @@ data Carta = Carta
     altura :: Int,
     peso :: Int,
     fuerza :: Int,
-    peleas :: Int
+    peleas :: Int,
+    tags :: [String]
   }
   deriving (Show, Eq)
 
--- Superhéroes de ejemplo
 batman :: Carta
-batman = Carta "Batman" 30 188 95 40 100
+batman = Carta "Batman" 30 188 95 40 100 ["#detective", "#murcielago", "#millonario"]
 
 batwoman :: Carta
-batwoman = Carta "Batwoman" 30 188 95 40 100
+batwoman = Carta "Batwoman" 30 188 95 40 100 ["#justiciera", "#batifamilia", "#pelirroja"]
 
 superman :: Carta
-superman = Carta "Superman" 100 190 105 100 80
+superman = Carta "Superman" 100 190 105 100 80 ["#krypton", "#volador", "#capa", "#alguien"]
 
 flash :: Carta
-flash = Carta "Flash" 110 180 75 35 60
+flash = Carta "Flash" 110 180 75 35 60 ["#veloz", "#rayo", "#corredor"]
 
 wonderWoman :: Carta
-wonderWoman = Carta "Wonder Woman" 85 183 75 95 90
+wonderWoman = Carta "Wonder Woman" 85 183 75 95 90 ["#amazona", "#latigo", "#guerrera"]
 
 hulk :: Carta
-hulk = Carta "Hulk" 40 240 600 110 70
+hulk = Carta "Hulk" 40 240 600 110 70 ["#fuerte", "#verde", "#aplastar", "#alguien"]
 
--- Un mazo para que uses con tus funciones de lista
+-- Mazo completo
 mazoSuperheores :: [Carta]
 mazoSuperheores = [batman, batwoman, superman, flash, wonderWoman, hulk]
 
@@ -358,3 +356,40 @@ tomarPrimeros = take 3 . superNombre
 
 comienzaConBat :: String -> Bool
 comienzaConBat x = x == "Bat"
+
+cartasConTagsMuyLargos :: [Carta] -> [String]
+cartasConTagsMuyLargos = map superNombre . filter (tagMuyLargo . tags)
+
+tagMuyLargo :: [String] -> Bool
+tagMuyLargo [] = False
+tagMuyLargo (x : xs) = length x >= 10 || tagMuyLargo xs
+
+-- * otra solucion
+
+-- ¿Hay alguna carta en todo el mazo con tags largos?
+hayCartasConTagsLargos :: [Carta] -> Bool
+hayCartasConTagsLargos = any tieneTagLargo
+
+-- ¿Hay alguna etiqueta de la carta que sea larga?
+tieneTagLargo :: Carta -> Bool
+tieneTagLargo = any ((> 10) . length) . tags
+
+-- * la solucion mas pro
+
+-- Función que revisa los tags de UNA sola carta
+tieneAlgunTagLargo :: Carta -> Bool
+tieneAlgunTagLargo unaCarta = any (\t -> length t >= 10) (tags unaCarta)
+
+-- Función que revisa si en TODO el mazo hay alguna carta con problemas
+hayCartasConTagsLargos' :: [Carta] -> Bool
+hayCartasConTagsLargos' mazo = any tieneAlgunTagLargo mazo
+
+corregirMazo :: [Carta] -> [Carta]
+corregirMazo mazo = map arreglarCarta mazo
+
+arreglarCarta :: Carta -> Carta
+arreglarCarta unaCarta = unaCarta {tags = map reemplazarTag (tags unaCarta)}
+
+reemplazarTag :: String -> String
+reemplazarTag "#alguien" = "#alien"
+reemplazarTag elTag = elTag
