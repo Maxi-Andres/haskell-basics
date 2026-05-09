@@ -10,6 +10,8 @@
 -- b) doble: Num a => a -> a (usando 2 *)
 -- c) alMenosCero: (Num a, Ord a) => a -> a (usando max 0)
 
+-- ! POINT-FREE es una forma de escribir funciones en programación funcional donde no se mencionan explícitamente los argumentos
+
 esMayorDeEdad :: (Ord a, Num a) => a -> Bool
 esMayorDeEdad = (>= 18)
 
