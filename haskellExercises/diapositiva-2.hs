@@ -94,7 +94,6 @@ gruposDeTres personas = div personas 3
 
 -- Verifica si una letra es una vocal (muy común en ejercicios de la UNSAM)
 esVocal :: Char -> Bool
--- esVocal letra = elem letra "aeiouAEIOU"
 esVocal letra = elem letra "aeiouAEIOU"
 
 -- Invierte el formato de un código o nombre

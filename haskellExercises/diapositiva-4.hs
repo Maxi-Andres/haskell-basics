@@ -20,8 +20,8 @@ cierreSupermercado dia False = 12 + length dia
 
 -- conjuncion :: Bool -> Bool -> Bool
 -- conjuncion True True = True
--- conjuncion True False = True
--- conjuncion False True = True
+-- conjuncion True False = False
+-- conjuncion False True = False
 -- conjuncion False False = False
 
 conjuncion :: Bool -> Bool -> Bool

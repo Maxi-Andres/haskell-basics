@@ -28,8 +28,7 @@ alMenosCero = (max 0)
 
 data Alumno = Alumno
   { calificacion :: Int,
-    nombre ::
-      String
+    nombre :: String
   }
   deriving (Show)
 
@@ -64,7 +63,7 @@ esCapicua (x : xs) = x == last xs && esCapicua (init xs) -- ? init te da toda la
 
 -- * (x : xs) esto hace [1,2,3] => [1] [2,3]
 
--- EJERCICIO 5: TRANSFORMAR A BINARI
+-- EJERCICIO 5: TRANSFORMAR A BINARIO
 -- Genere la función a la cual se le pasa un numero decimal y devuelve uno binario
 
 decimalABinario :: Int -> Int
