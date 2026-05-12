@@ -69,9 +69,15 @@ filtrarPorAuthor auth autores = elem auth (autores)
 -- Verificar si una persona escribió alguna obra, sin importar cuál.
 -- escribioAlgo :: Autor -> [Obra] -> Bool
 
+escribioAlgo :: Autor -> [Obra] -> Bool
+escribioAlgo autor obras = any (filtrarPorAuthor autor . autores) obras
+
 -- 5. Existencia de Obra:
 -- Determinar si es cierto que una obra con un título determinado existe en la base de datos.
 -- existe :: Titulo -> [Obra] -> Bool
+
+existeObra :: Titulo -> [Obra] -> Bool
+existeObra unTit lasObras = any ((== unTit) . titulo) lasObras
 
 -- 6. Estrategias de Evaluación (Teórico/Práctico):
 -- Analizar cómo se comportan las funciones anteriores bajo Evaluación Eager vs Lazy.
