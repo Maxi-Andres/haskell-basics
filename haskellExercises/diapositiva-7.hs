@@ -47,10 +47,10 @@ tieneAutorYTitulo' unAutor unTitulo unaObra = titulo unaObra == unTitulo && elem
 -- autoresDe :: Titulo -> [Obra] -> [Autor]
 
 autoresDe :: Titulo -> [Obra] -> [Autor]
-autoresDe unTit lasObras = autores (head (filter (encontrarObra unTit) todasobras))
+autoresDe unTit lasObras = autores (head (filter (encontrarObra unTit) lasObras))
 
-encontrarObra :: Obra -> Titulo -> Bool
-encontrarObra unaObra unTit = unTit == titulo unaObra
+encontrarObra :: Titulo -> Obra -> Bool
+encontrarObra unTit unaObra = unTit == titulo unaObra
 
 autoresDe' :: Titulo -> [Obra] -> [Autor]
 autoresDe' unTitulo todasobras = autores (head (filter ((== unTitulo) . titulo) todasobras))
@@ -58,6 +58,12 @@ autoresDe' unTitulo todasobras = autores (head (filter ((== unTitulo) . titulo) 
 -- 3. Obras de un Autor:
 -- ¿Qué obra escribió cierta persona? Implementar 'obrasDe' que devuelva los títulos de las obras de un autor.
 -- obrasDe :: Autor -> [Obra] -> [Titulo]
+
+obrasDe :: Autor -> [Obra] -> [Titulo]
+obrasDe auth obras = map titulo (filter (filtrarPorAuthor auth . autores) obras)
+
+filtrarPorAuthor :: Autor -> [Autor] -> Bool
+filtrarPorAuthor auth autores = elem auth (autores)
 
 -- 4. Producción del Autor (escribioAlgo):
 -- Verificar si una persona escribió alguna obra, sin importar cuál.
