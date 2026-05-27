@@ -65,6 +65,9 @@ obrasDe auth obras = map titulo (filter (filtrarPorAuthor auth . autores) obras)
 filtrarPorAuthor :: Autor -> [Autor] -> Bool
 filtrarPorAuthor auth autores = elem auth (autores)
 
+obrasDe' :: Autor -> [Obra] -> [Titulo]
+obrasDe' auth obras = map titulo (filter (elem auth . autores) obras)
+
 -- 4. Producción del Autor (escribioAlgo):
 -- Verificar si una persona escribió alguna obra, sin importar cuál.
 -- escribioAlgo :: Autor -> [Obra] -> Bool

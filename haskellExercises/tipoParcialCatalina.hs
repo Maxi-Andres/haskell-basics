@@ -32,50 +32,32 @@ historialVip = UnHistorial "pepe" True catalogo
 
 -- Definir la función esMaratonDeComedia que determine si un contenido dura menos de 30 minutos y pertenece al género "Comedy".
 
-esMaratorDeComedia :: Contenido -> Bool
-esMaratorDeComedia content = any (== "Comedy") (generos content) && 30 > duracion content
-
-esMaratonDeComedia' :: Contenido -> Bool
-esMaratonDeComedia' content = any (\x -> x == "Comedy") (generos content) && 30 > duracion content
+esMaratonDeComedia :: Contenido -> Bool
+esMaratonDeComedia contenido = duracion contenido < 30 && elem "Comedy" (generos contenido)
 
 -- Definir la función puedeVer que reciba un Historial de usuario y un Contenido. Un usuario puede ver el contenido si el contenido no es premium, o si el usuario es VIP.
 
 puedeVer :: Historial -> Contenido -> Bool
-puedeVer histo content = esVip histo == True || esPremium content == False
+puedeVer historial contenido = esVip historial || not (esPremium contenido)
 
 -- Implementar la función recomendacionesPorGenero que, dado un género musical/cinematográfico y una lista de contenidos (el catálogo), devuelva únicamente los títulos de los contenidos que pertenecen a ese género.
 
 recomendacionesPorGenero :: String -> [Contenido] -> [String]
-recomendacionesPorGenero generoPrefe listaContenidos = map titulo (filter (esContenidoPreferido generoPrefe . generos) listaContenidos)
-
-esContenidoPreferido :: String -> [String] -> Bool
-esContenidoPreferido generoPrefe listaGenros = elem generoPrefe listaGenros
+recomendacionesPorGenero genero listaContenidos = map titulo (filter (elem genero . generos) listaContenidos)
 
 -- Definir la función esFanaticoDe que reciba un género, un Historial de usuario y determine si todos los contenidos que vio en su historial pertenecen a ese género.
 
 esFanaticoDe :: String -> Historial -> Bool
-esFanaticoDe genero history = all (perteneceAGenero genero) (contenidosVistos history)
-
-perteneceAGenero :: String -> Contenido -> Bool
-perteneceAGenero gener contenido = any (== gener) (generos contenido)
-
-esFanaticoDe' :: String -> Historial -> Bool
-esFanaticoDe' genero history = all (\contenido -> any (== genero) (generos contenido)) (contenidosVistos history)
+esFanaticoDe genero historial = all (elem genero . generos) (contenidosVistos historial)
 
 -- Implementar tiempoTotalVisto que calcule la suma de las duraciones de todos los contenidos que un usuario tiene en su historial.
 
 tiempoTotalVisto :: Historial -> Int
 tiempoTotalVisto historial = sumarTiempoDeVista (contenidosVistos historial)
 
-tiempoTotalVisto2 :: Historial -> Int
-tiempoTotalVisto2 = sumarTiempoDeVista . contenidosVistos
-
 sumarTiempoDeVista :: [Contenido] -> Int
 sumarTiempoDeVista [] = 0
 sumarTiempoDeVista (x : xs) = duracion x + sumarTiempoDeVista xs
-
-tiempoTotalVisto' :: Historial -> Int
-tiempoTotalVisto' historial = sum (map duracion (contenidosVistos historial))
 
 -- Para cerrar el estilo de parcial, respondé a las siguientes preguntas basándote en el código que vas a escribir y los conceptos de Evaluación Eager (Estrictamente evaluada) y Evaluación Lazy (Perezosa):
 
