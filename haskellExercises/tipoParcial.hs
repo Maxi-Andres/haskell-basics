@@ -32,8 +32,11 @@ historialVip = UnHistorial "pepe" True catalogo
 
 -- Definir la función esMaratonDeComedia que determine si un contenido dura menos de 30 minutos y pertenece al género "Comedy".
 
-esMaratorDeComedia :: Contenido -> Bool
-esMaratorDeComedia content = any (== "Comedy") (generos content) && 30 > duracion content
+esMaratonDeComedia2 :: Contenido -> Bool
+esMaratonDeComedia2 contenido = duracion contenido < 30 && elem "Comedy" (generos contenido)
+
+esMaratonDeComedia :: Contenido -> Bool
+esMaratonDeComedia content = any (== "Comedy") (generos content) && 30 > duracion content
 
 esMaratonDeComedia' :: Contenido -> Bool
 esMaratonDeComedia' content = any (\x -> x == "Comedy") (generos content) && 30 > duracion content
@@ -43,7 +46,13 @@ esMaratonDeComedia' content = any (\x -> x == "Comedy") (generos content) && 30 
 puedeVer :: Historial -> Contenido -> Bool
 puedeVer histo content = esVip histo == True || esPremium content == False
 
+puedeVer' :: Historial -> Contenido -> Bool
+puedeVer' historial contenido = esVip historial || not (esPremium contenido)
+
 -- Implementar la función recomendacionesPorGenero que, dado un género musical/cinematográfico y una lista de contenidos (el catálogo), devuelva únicamente los títulos de los contenidos que pertenecen a ese género.
+
+recomendacionesPorGenero' :: String -> [Contenido] -> [String]
+recomendacionesPorGenero' genero listaContenidos = map titulo (filter (elem genero . generos) listaContenidos)
 
 recomendacionesPorGenero :: String -> [Contenido] -> [String]
 recomendacionesPorGenero generoPrefe listaContenidos = map titulo (filter (esContenidoPreferido generoPrefe . generos) listaContenidos)
@@ -61,6 +70,9 @@ perteneceAGenero gener contenido = any (== gener) (generos contenido)
 
 esFanaticoDe' :: String -> Historial -> Bool
 esFanaticoDe' genero history = all (\contenido -> any (== genero) (generos contenido)) (contenidosVistos history)
+
+esFanaticoDe2 :: String -> Historial -> Bool
+esFanaticoDe2 genero historial = all (elem genero . generos) (contenidosVistos historial)
 
 -- Implementar tiempoTotalVisto que calcule la suma de las duraciones de todos los contenidos que un usuario tiene en su historial.
 

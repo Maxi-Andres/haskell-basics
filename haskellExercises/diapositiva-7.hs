@@ -24,11 +24,11 @@ todasLasObras =
 -- Definir la función 'escribio' que determine si un autor específico escribió una obra con un título determinado.
 -- escribio :: Autor -> Titulo -> [Obra] -> Bool
 
-escribio :: Autor -> Titulo -> [Obra] -> Bool
-escribio _ _ [] = False
-escribio auth tit (x : xs)
+escribioGuardas :: Autor -> Titulo -> [Obra] -> Bool
+escribioGuardas _ _ [] = False
+escribioGuardas auth tit (x : xs)
   | tit == titulo x = encontrarAutor x auth
-  | otherwise = escribio auth tit xs
+  | otherwise = escribioGuardas auth tit xs
 
 encontrarAutor :: Obra -> Autor -> Bool
 encontrarAutor obra elEscritor = elem elEscritor (autores obra)
@@ -75,12 +75,18 @@ obrasDe' auth obras = map titulo (filter (elem auth . autores) obras)
 escribioAlgo :: Autor -> [Obra] -> Bool
 escribioAlgo autor obras = any (filtrarPorAuthor autor . autores) obras
 
+escribioAlgo' :: Autor -> [Obra] -> Bool
+escribioAlgo' autor listaObras = any (elem autor . autores) listaObras
+
 -- 5. Existencia de Obra:
 -- Determinar si es cierto que una obra con un título determinado existe en la base de datos.
 -- existe :: Titulo -> [Obra] -> Bool
 
 existeObra :: Titulo -> [Obra] -> Bool
 existeObra unTit lasObras = any ((== unTit) . titulo) lasObras
+
+existeObra' :: Titulo -> [Obra] -> Bool
+existeObra' unTitulo listaObras = any (\obra -> titulo obra == unTitulo) listaObras
 
 -- 6. Estrategias de Evaluación (Teórico/Práctico):
 -- Analizar cómo se comportan las funciones anteriores bajo Evaluación Eager vs Lazy.
