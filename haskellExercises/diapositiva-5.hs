@@ -1,3 +1,5 @@
+import Control.Exception (BlockedIndefinitelyOnMVar)
+
 -- EJERCICIO 1: APLICACIÓN PARCIAL (TIPADO)
 -- Determinar los tipos resultantes de las siguientes aplicaciones parciales:
 -- a) :t (== 'a')
@@ -20,6 +22,9 @@ doble = (2 *)
 
 alMenosCero :: (Num a, Ord a) => a -> a
 alMenosCero = (max 0)
+
+esExactamenteCinco :: (Eq a, Num a) => a -> Bool
+esExactamenteCinco num = num == 5
 
 -- EJERCICIO 3: COMPOSICIÓN DE FUNCIONES
 -- Dada la función:
